@@ -43,7 +43,7 @@ Scikit-learn – Machine learning models for prediction
 Installation:
 Clone the repository:
 
-git clone https://github.com/bommepallipadmalatha-123/population-growth-in-cities.git
+git clone https://github.com/7889958004/predicting-population-growth-in-cities
 cd population-growth-prediction
 Install dependencies:
 pip install -r requirements.txt
