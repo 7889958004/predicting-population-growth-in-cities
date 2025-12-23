@@ -1,0 +1,54 @@
+# IMPORTING LIBRARIES
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+# CREATING DATA FOR MAJOR INDIAN CITIES
+data = {
+    'City': ['Mumbai', 'Mumbai', 'Delhi', 'Delhi', 'Bengaluru', 'Bengaluru', 'Hyderabad', 'Hyderabad', 
+             'Ahmedabad', 'Ahmedabad', 'Chennai', 'Chennai', 'Kolkata', 'Kolkata'],
+    'Year': [2001, 2011]*7,
+    'Population': [11914398, 12442373, 9817439, 11034555, 4301326, 8443675, 3637483, 6809970, 
+                   3520085, 5570585, 4328063, 7090000, 4580561, 4486679]
+}
+
+# CONVERTING TO DATAFRAME
+df = pd.DataFrame(data)
+
+# LIST OF UNIQUE CITIES
+cities = df['City'].unique()
+
+# PREDICTING POPULATION FOR FUTURE YEARS
+future_years = [2021, 2031]
+
+# LOOP THROUGH EACH CITY
+for city in cities:
+    city_data = df[df['City'] == city]
+    X = city_data[['Year']]
+    y = city_data['Population']
+
+    # LINEAR REGRESSION MODEL
+    model = LinearRegression()
+    model.fit(X, y)
+
+    # PREDICT FUTURE
+    future_df = pd.DataFrame({'Year': future_years})
+    predictions = model.predict(future_df)
+
+    # DISPLAY PREDICTIONS
+    print(f"\n📈 {city} Predictions:")
+    for year, pop in zip(future_years, predictions):
+        print(f"  ➤ Population in {year}: {int(pop):,}")
+
+    # PLOT RESULTS
+    plt.figure()
+    plt.scatter(X, y, color='blue', label='Actual')
+    plt.plot(X, model.predict(X), color='red', label='Trend')
+    plt.plot(future_df, predictions, color='green', linestyle='--', marker='o', label='Predicted')
+    plt.title(f"{city} - Population Growth")
+    plt.xlabel('Year')
+    plt.ylabel('Population')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
